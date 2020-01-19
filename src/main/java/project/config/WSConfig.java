@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import project.ws.GreetingService;
+import project.ws.InfoService;
 import project.ws.InfoServiceImpl;
 
 import javax.xml.ws.Endpoint;
@@ -19,6 +20,8 @@ import javax.xml.ws.Endpoint;
 public class WSConfig {
     @Autowired
     private GreetingService greetingService;
+    @Autowired
+    private InfoService infoService;
 
     @Bean
     public ServletRegistrationBean dispatcherServletCXF() {
@@ -32,8 +35,8 @@ public class WSConfig {
 
     @Bean
     public Endpoint endpoint() {
-        EndpointImpl endpoint = new EndpointImpl(springBus(), new InfoServiceImpl());
-        endpoint.publish("/InfoService");
+        EndpointImpl endpoint = new EndpointImpl(springBus(), infoService);
+        endpoint.publish("/infoService");
         return endpoint;
     }
     @Bean
@@ -42,5 +45,4 @@ public class WSConfig {
         endpoint.publish("/greeting");
         return endpoint;
     }
-
 }
